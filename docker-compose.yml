@@ -29,6 +29,18 @@ services:
       - monitoring
     ports:
       - 9093:9093 
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    volumes:
+      - ./grafana-config/grafana.db:/grafana/data/grafana.db
+    #env_file:
+    #  - ./grafana.config
+    networks:
+      - monitoring
+    ports:
+      - 3000:3000
 networks:
   monitoring:
     external: true        
