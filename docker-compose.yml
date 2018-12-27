@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+    - ./prometheus-config/:/etc/prometheus/
+    - ./prometheus-config/data/:/etc/prometheus/data/
+    - ./prometheus-config/data/wal:/etc/prometheus/data/wal
+    - ./prometheus-data:/var/lib/prometheus
+    networks:
+    - monitoring
+    ports:
+      - 9090:9090
+  node-exporter:
+    image: quay.io/prometheus/node-exporter
+    container_name: node-exporter
+    networks:
+    - monitoring
+    ports:
+      - 9100:9100
+  alertmanager:
+    image: prom/alertmanager
+    #volumes:
+    #  - ./alertmanager-config/:/etc/alertmanager/
+    networks:
+      - monitoring
+    ports:
+      - 9093:9093 
+networks:
+  monitoring:
+    external: true        
