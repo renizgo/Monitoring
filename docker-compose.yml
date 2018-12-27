@@ -44,6 +44,30 @@ services:
       - monitoring
     ports:
       - 3000:3000
+  cadvisor:
+    image: google/cadvisor
+    hostname: '{{.Node.ID}}'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+        #   - /var/lib/docker/:/var/lib/docker:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - monitoring
+    deploy:
+      mode: global
+    ports:
+      - 8080:8080
+  netdata:
+    image: netdata/netdata
+    container_name: netdata
+    volumes: 
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 19999:19999
 networks:
   monitoring:
     external: true        
