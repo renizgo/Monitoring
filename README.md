@@ -38,6 +38,16 @@ Exit your terminal and reopen and run command:
 $ docker run hello-world
 ```
 
+**For more agility run docker pull images**
+```
+docker pull prom/prometheus
+docker pull quay.io/prometheus/node-exporter
+docker pull prom/alertmanager
+docker pull grafana/grafana
+docker pull google/cadvisor
+docker pull netdata/netdata
+```
+
 **Create a directory and run Git Clone Project**
 ```
 $ mkdir /opt/monitoring
