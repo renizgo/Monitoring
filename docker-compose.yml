@@ -31,6 +31,7 @@ services:
       - 9093:9093 
   grafana:
     image: grafana/grafana
+    #image: nopp/grafana_alpine
     depends_on:
       - prometheus
     volumes:
