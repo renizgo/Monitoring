@@ -74,6 +74,13 @@ $ docker network create monitoring
 $ sudo iptables --flush
 ```
 
+**Change ips "Your IP" in prometheus.yml archive, for example:
+```
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['<YOUR_IP>:9090']
+```
+
 **Run a Docker Compose**
 ```
 $ docker-compose up
