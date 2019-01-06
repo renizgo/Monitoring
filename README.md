@@ -40,7 +40,7 @@ $ sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
 $ sudo chmod g+rwx "$HOME/.docker" -R
 ```
 
-Exit your terminal and reopen and run command:
+** Exit your terminal and reopen and run command:
 ```
 $ docker run hello-world
 ```
@@ -57,11 +57,11 @@ docker pull netdata/netdata
 
 **Create a directory and run Git Clone Project**
 ```
-$ mkdir /opt/monitoring
-$ cd /opt/monitoring/
+$ cd ~
 $ git clone https://github.com/renizgo/Monitoring.git
-$ sudo chown nobody. Monitoring/ -R
 $ cd Monitoring
+$ sudo find ../Monitoring/ -type d -exec chmod 777  "{}" \;
+$ sudo find ../Monitoring/ -type f -exec chmod 666  "{}" \;
 ```
 
 **Create a network in Docker**
@@ -69,41 +69,67 @@ $ cd Monitoring
 $ docker network create monitoring
 ```
 
-**Iptables flush rules**
+** Disable firewall
 ```
-$ sudo iptables --flush
+$ sudo ufw disable
 ```
 
-**Change ips "Your IP" in prometheus.yml archive, for example:
+**Change ips "Your IP" in ```prometheus-config/prometheus.yml``` archive, for example:
 ```
   - job_name: 'prometheus'
     static_configs:
     - targets: ['<YOUR_IP>:9090']
 ```
 
+** Edit also ```nginx-config/nginx.conf``` with your IP
+```
+server {
+  listen 80;
+  server_name exporter.monitor;
+  location / {
+      proxy_pass http://<YOUR_IP>:9100/;
+  }
+}
+```
+
+** Edit your ```/etc/hosts``` 
+<YOUR_IP>  prometheus.monitor
+<YOUR_IP>  exporter.monitor
+<YOUR_IP>  grafana.monitor
+<YOUR_IP>  netdata.monitor
+<YOUR_IP>  cadvisor.monitor
+<YOUR_IP>  alertmanager.monitor
+
+** Restart server
+```
+$ sudo reboot
+```
+
+
 **Run a Docker Compose**
 ```
+$ cd ~/Monitoring
 $ docker-compose up
 ```
 
 Open your browser with the URLs:
 
 Prometheus
-http://localhost:9090
+http://prometheus.monitor
 
 Node-Exporter
-http://localhost:9100
+http://exporter.monitor
 
 AlertManager
-http://localhost:9093
+http://alertmanager.monitor
 
 Netdata
-http://localhost:19999
+http://netdata.monitor
 
 Cadivisor
-http://localhost:8080
+http://cadvisor.monitor
 
 Grafana
-http://localhost:8080
+http://grafana.monitor
 
 Hope this helps
