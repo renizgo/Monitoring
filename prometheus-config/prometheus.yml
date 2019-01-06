@@ -28,12 +28,12 @@ scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
     static_configs:
-    - targets: ['10.10.100.55:9090']
+    - targets: ['192.168.0.107:9090']
   
   - job_name: 'node'
     scrape_interval: 5s
     static_configs:
-         - targets: ['10.10.100.55:9100']
+         - targets: ['192.168.0.107:9100']
   
   - job_name: 'netdata'
     metrics_path: '/api/v1/allmetrics'
@@ -42,4 +42,4 @@ scrape_configs:
     honor_labels: true
     scrape_interval: 5s
     static_configs:
-         - targets: ['10.10.100.55:19999']
+         - targets: ['192.168.0.107:19999']

@@ -1,7 +1,15 @@
 version: '3.3'
 
 services:
-
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+    - ./nginx-config/:/etc/nginx/
+    networks:
+    - monitoring
+    ports:
+      - 80:80
   prometheus:
     image: prom/prometheus
     container_name: prometheus
