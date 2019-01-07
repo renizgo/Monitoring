@@ -93,14 +93,16 @@ server {
 ```
 
 ** Edit your ```/etc/hosts``` 
+```
 <YOUR_IP>  prometheus.monitor
 <YOUR_IP>  exporter.monitor
 <YOUR_IP>  grafana.monitor
 <YOUR_IP>  netdata.monitor
 <YOUR_IP>  cadvisor.monitor
 <YOUR_IP>  alertmanager.monitor
+```
 
-** Restart server
+** Very Important - Restart server -
 ```
 $ sudo reboot
 ```
