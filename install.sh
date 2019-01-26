@@ -96,4 +96,35 @@ else
 	esac
 fi
 
+echo "Configuring Docker permission for use Docker without SUDO"
 
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo mkdir /home/"$USER"/.docker
+sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
+sudo chmod g+rwx "$HOME/.docker" -R
+
+echo "Setting permissions"
+sudo find ../Monitoring/ -type d -exec chmod 777  "{}" \;
+sudo find ../Monitoring/ -type f -exec chmod 666  "{}" \;
+
+
+echo "Create docker networking with monitoring name"
+
+sudo docker network create monitoring
+
+sudo ufw disable
+
+echo "Please reboot you server and execute post_install.sh"
+echo "Do you wish restart you server?"
+  read YESORNO
+  	case $YESORNO in
+		yes) 
+			echo "Rebooting now"
+			sudo reboot;;
+		no)
+			echo "Please reboot before!!!"
+			exit 1;;
+		*)
+			echo "Please insert Yes or No";;
+	esac
