@@ -10,6 +10,7 @@ services:
     - monitoring
     ports:
       - 80:80
+    restart: always
   prometheus:
     image: prom/prometheus
     container_name: prometheus
