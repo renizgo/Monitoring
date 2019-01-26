@@ -32,6 +32,7 @@ services:
       - 9100:9100
   alertmanager:
     image: prom/alertmanager
+    container_name: alertmanager
     #volumes:
     #  - ./alertmanager-config/:/etc/alertmanager/
     networks:
@@ -40,12 +41,14 @@ services:
       - 9093:9093 
   grafana:
     image: grafana/grafana
+    container_name: grafana
     #image: nopp/grafana_alpine
     depends_on:
       - prometheus
     volumes:
       - ./grafana-config/grafana.db:/grafana/data/grafana.db
       - ./grafana-config/storage:/var/lib/grafana
+      - ./grafana-config/plugins:/var/lib/grafana/plugins
     #env_file:
     #  - grafana.env
     environment:
@@ -57,6 +60,7 @@ services:
       - 3000:3000
   cadvisor:
     image: google/cadvisor
+    container_name: cadvisor
     hostname: '{{.Node.ID}}'
     volumes:
       - /:/rootfs:ro

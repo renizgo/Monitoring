@@ -2,7 +2,7 @@
 
 echo "Changing Localhost for IP Server in nginx.conf file"
 IP=`ifconfig | grep -A2 enp | grep -v inet6 | grep inet | awk '{print $2}'`
-sed -i -e 's/localhost/$IP/' nginx-config/nginx.conf
+sed -i -e "s/localhost/$IP/" nginx-config/nginx.conf
 
 # Verifying instalation of Git
 git version > /dev/null
