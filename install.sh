@@ -108,8 +108,8 @@ sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
 sudo chmod g+rwx "$HOME/.docker" -R
 
 echo "Setting permissions"
-sudo find ../Monitoring/ -type d -exec chmod 777  "{}" \;
-sudo find ../Monitoring/ -type f -exec chmod 666  "{}" \;
+sudo find ../Monitoring/ -type d -exec chmod -R 777  "{}" \;
+sudo find ../Monitoring/ -type f -exec chmod -R 666  "{}" \;
 
 
 echo "Create docker networking with monitoring name"
@@ -119,6 +119,8 @@ sudo docker network create monitoring
 sudo ufw disable
 
 crontab -l 2>/dev/null; echo "@reboot /usr/bin/docker-compose -f /home/$USER/Monitoring/docker-compose.yml  up -d" | crontab -
+crontab -l 2>/dev/null; echo "@reboot sudo find /home/$USER/Monitoring/ -type d -exec chmod -R 777  \"{}\" \;" | crontab -
+crontab -l 2>/dev/null; echo "@reboot sudo find /home/$USER/Monitoring/ -type f -exec chmod -R 666  \"{}\" \;" | crontab -
 
 echo "Please reboot you server and execute post_install.sh"
 echo "Do you wish restart you server?"
